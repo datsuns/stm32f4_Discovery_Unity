@@ -54,24 +54,30 @@ static const USBDescriptor *get_descriptor(USBDriver *usbp,
 static USBInEndpointState ep1instate;
 
 /**
- * @brief   EP1 initialization structure (IN only).
+ * @brief   OUT EP1 state.
+ */
+static USBOutEndpointState ep1outstate;
+
+/**
+ * @brief   EP1 initialization structure (both IN and OUT).
  */
 static const USBEndpointConfig ep1config = {
   USB_EP_MODE_TYPE_BULK,
   NULL,
   sduDataTransmitted,
-  NULL,
+  sduDataReceived,
   0x0040,
-  0x0000,
+  0x0040,
   &ep1instate,
-  NULL,
+  &ep1outstate,
+  2,
   NULL
 };
 
 /**
- * @brief   OUT EP2 state.
+ * @brief   IN EP2 state.
  */
-USBOutEndpointState ep2outstate;
+static USBInEndpointState ep2instate;
 
 /**
  * @brief   EP2 initialization structure (IN only).
@@ -83,28 +89,9 @@ static const USBEndpointConfig ep2config = {
   NULL,
   0x0010,
   0x0000,
+  &ep2instate,
   NULL,
-  &ep2outstate,
-  NULL
-};
-
-/**
- * @brief   OUT EP2 state.
- */
-USBOutEndpointState ep3outstate;
-
-/**
- * @brief   EP3 initialization structure (OUT only).
- */
-static const USBEndpointConfig ep3config = {
-  USB_EP_MODE_TYPE_BULK,
-  NULL,
-  NULL,
-  sduDataReceived,
-  0x0000,
-  0x0040,
-  NULL,
-  &ep3outstate,
+  1,
   NULL
 };
 
@@ -126,7 +113,6 @@ static void usb_event(USBDriver *usbp, usbevent_t event) {
        must be used.*/
     usbInitEndpointI(usbp, USB_CDC_DATA_REQUEST_EP, &ep1config);
     usbInitEndpointI(usbp, USB_CDC_INTERRUPT_REQUEST_EP, &ep2config);
-    usbInitEndpointI(usbp, USB_CDC_DATA_AVAILABLE_EP, &ep3config);
 
     /* Resetting the state of the CDC subsystem.*/
     sduConfigureHookI(usbp);
@@ -143,34 +129,47 @@ static void usb_event(USBDriver *usbp, usbevent_t event) {
   return;
 }
 
+/*
+ * USB driver configuration.
+ */
+const USBConfig usbcfg = {
+  usb_event,
+  get_descriptor,
+  sduRequestsHook,
+  NULL
+};
 
 /*
  * Serial over USB driver configuration.
  */
-static const SerialUSBConfig serusbcfg = {
-  &USBD1,
-  {
-    usb_event,
-    get_descriptor,
-    sduRequestsHook,
-    NULL
-  }
+const SerialUSBConfig serusbcfg = {
+  &USBD1
 };
 
 int isUsbActive(void){
   return SDU1.config->usbp->state == USB_ACTIVE;
 }
 
-
 void myUSBinit(void){
-  usbDisconnectBus(serusbcfg.usbp);
-  chThdSleepMilliseconds(1000);
-  sduObjectInit(&SDU1);
-  sduStart(&SDU1, &serusbcfg);  // => usbStart(config->usbp, &config->usb_config);
-  usbConnectBus(serusbcfg.usbp);
 
   /*
    * Shell manager initialization.
    */
   shellInit();
+
+  /*
+   * Initializes a serial-over-USB CDC driver.
+   */
+  sduObjectInit(&SDU1);
+  sduStart(&SDU1, &serusbcfg);
+
+  /*
+   * Activates the USB driver and then the USB bus pull-up on D+.
+   * Note, a delay is inserted in order to not have to disconnect the cable
+   * after a reset.
+   */
+  usbDisconnectBus(serusbcfg.usbp);
+  chThdSleepMilliseconds(1000);
+  usbStart(serusbcfg.usbp, &usbcfg);
+  usbConnectBus(serusbcfg.usbp);
 }
