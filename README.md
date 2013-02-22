@@ -3,7 +3,9 @@ STM32F4-Discovery-example-code
 
 This is a fork of ChibiOS/RT example project originally written by Mathias-L, available on GitHub (https://github.com/Mathias-L/STM32F4-Discovery-example-code).
 
-I made it work on ChibiOS/RT 2.5.2unstable, on git revision 6a5d456e0fa5c6f6f20c69656bcf03ec3661a8b5. I also applied change from here: http://forum.chibios.org/phpbb/viewtopic.php?f=4&t=514&start=10#p5363
+I made it work on ChibiOS/RT 2.5.2unstable, on git revision 4d76e34493c1f79ad15b95b6ebfb8859acce21ec (21 Feb 2013). I also applied change from here: http://forum.chibios.org/phpbb/viewtopic.php?f=4&t=514&start=10#p5363
+
+Compiled with GCC ARM Embedded (https://launchpad.net/gcc-arm-embedded) version 4.7-2012-q4 (GCC 4.7.3).
 
 Original README
 ===============
