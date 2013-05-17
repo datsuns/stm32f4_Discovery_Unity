@@ -2,7 +2,6 @@
 
 #include "ch.h"
 #include "hal.h"
-#include "usb_cdc.h"
 #include "shell.h"
 
 #include "myUSB.h"
@@ -22,8 +21,12 @@ SerialUSBDriver SDU1;
 /* USB related stuff.                                                        */
 /*===========================================================================*/
 
-
-
+/*
+ * Endpoints to be used for USBD1.
+ */
+#define USBD1_DATA_REQUEST_EP           1
+#define USBD1_DATA_AVAILABLE_EP         1
+#define USBD1_INTERRUPT_REQUEST_EP      2
 
 /*
  * Handles the GET_DESCRIPTOR callback. All required descriptors must be
@@ -99,6 +102,7 @@ static const USBEndpointConfig ep2config = {
  * Handles the USB driver global events.
  */
 static void usb_event(USBDriver *usbp, usbevent_t event) {
+  extern SerialUSBDriver SDU1;
 
   switch (event) {
   case USB_EVENT_RESET:
@@ -111,11 +115,11 @@ static void usb_event(USBDriver *usbp, usbevent_t event) {
     /* Enables the endpoints specified into the configuration.
        Note, this callback is invoked from an ISR so I-Class functions
        must be used.*/
-    usbInitEndpointI(usbp, USB_CDC_DATA_REQUEST_EP, &ep1config);
-    usbInitEndpointI(usbp, USB_CDC_INTERRUPT_REQUEST_EP, &ep2config);
+    usbInitEndpointI(usbp, USBD1_DATA_REQUEST_EP, &ep1config);
+    usbInitEndpointI(usbp, USBD1_INTERRUPT_REQUEST_EP, &ep2config);
 
     /* Resetting the state of the CDC subsystem.*/
-    sduConfigureHookI(usbp);
+    sduConfigureHookI(&SDU1);
 
     chSysUnlockFromIsr();
     return;
@@ -143,7 +147,10 @@ const USBConfig usbcfg = {
  * Serial over USB driver configuration.
  */
 const SerialUSBConfig serusbcfg = {
-  &USBD1
+  &USBD1,
+  USBD1_DATA_REQUEST_EP,
+  USBD1_DATA_AVAILABLE_EP,
+  USBD1_INTERRUPT_REQUEST_EP
 };
 
 int isUsbActive(void){
