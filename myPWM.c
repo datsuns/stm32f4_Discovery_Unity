@@ -51,6 +51,7 @@ static PWMConfig pwmcfg = {
    {PWM_OUTPUT_DISABLED, NULL}              /* channel 1 callback unused */
   },
   0,
+  0,
 };
 
 /*
