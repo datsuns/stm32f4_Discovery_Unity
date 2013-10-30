@@ -16,6 +16,10 @@ requirements
 ------------
 * Chibios 2.5.0+ (or a recent development snapshot)
 * arm toolchain (e.g. arm-none-eabi from summon-arm)
+* C xUnit framwork Unity
+   * now Unity has changed into GitHub !
+      * https://github.com/ThrowTheSwitch/Unity
+* will use **both** USB connection on the STM32 board
 
 features
 --------
@@ -27,9 +31,10 @@ features
 
 usage
 -----
-* edit the Makefile and point "CHIBIOS = ../../chibios" to your ChibiOS folder
+* edit the Makefile and point "CHIBIOS = ../ChibiOS-RT/" to your ChibiOS folder
+* edit the Makefile and point "UNITY = ../../unity.framework" to your Unity Framework folder
 * make
-* connect the STM32F4 Discovery with both USB connectors
+* connect the STM32F4 Discovery with **both** USB connectors
 * flash the STM32F4: st-flash write build/ch.bin 0x8000000
 * use your favorite terminal programm to connect to the Serial Port (/dev/ttyACM0 for me, probably COM1 on Windows)
 

@@ -93,8 +93,8 @@ CSRC = $(PORTSRC) \
        myADC.c \
        myUSB.c \
        myMisc.c \
-			 $(UNITY)/src/unity.c \
-			 $(UNITY)/extras/fixture/src/unity_fixture.c \
+       $(UNITY)/src/unity.c \
+       $(UNITY)/extras/fixture/src/unity_fixture.c \
 
 # C++ sources that can be compiled in ARM or THUMB mode depending on the global
 # setting.
@@ -126,8 +126,8 @@ ASMSRC = $(PORTASM)
 INCDIR = $(PORTINC) $(KERNINC) $(TESTINC) \
          $(HALINC) $(PLATFORMINC) $(BOARDINC) \
          $(CHIBIOS)/os/various \
-				 $(UNITY)/src \
-				 $(UNITY)/extras/fixture/src \
+         $(UNITY)/src \
+         $(UNITY)/extras/fixture/src \
 
 #
 # Project, sources and paths
