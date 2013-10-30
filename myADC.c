@@ -347,6 +347,7 @@ void cmd_measureRead(BaseSequentialStream *chp, int argc, char *argv[]) {
 #include "unity.h"
 void hello_unity(void){
   TEST_ASSERT_EQUAL(0, 0);
+  TEST_ASSERT_EQUAL(0, 1);
 }
 void cmd_hello_unity(BaseSequentialStream *chp, int argc, char *argv[]) {
   UnityBegin();
