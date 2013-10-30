@@ -318,6 +318,9 @@ void cmd_measureStop(BaseSequentialStream *chp, int argc, char *argv[]) {
     running=0;
   }
 }
+void cmd_say_hello(BaseSequentialStream *chp, int argc, char *argv[]) {
+  chprintf(chp, "Hello!\r\n");
+}
 
 /*
  * print the remainder of the ring buffer of a continuous conversion

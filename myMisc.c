@@ -70,7 +70,7 @@ void cmd_toggle(BaseSequentialStream *chp, int argc, char *argv[]) {
   }
 }
 
-int blinkspeed = 500;
+int blinkspeed = 100;
 void cmd_blinkspeed(BaseSequentialStream *chp, int argc, char *argv[]) {
 
   (void)argv;

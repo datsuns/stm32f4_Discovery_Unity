@@ -63,6 +63,7 @@ static const ShellCommand commands[] = {
   {"rd", cmd_measureRead},
   {"stopContinuous", cmd_measureStop},
   {"sc", cmd_measureStop},
+  {"hello", cmd_say_hello},
   {NULL, NULL}
 };
 
