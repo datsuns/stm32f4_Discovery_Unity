@@ -63,6 +63,9 @@ endif
 # Define project name here
 PROJECT = ch
 
+# path to unity
+UNITY = ../../unity.framework
+
 # Imported source files and paths
 #CHIBIOS = ../ChibiOS_2.6.1/
 CHIBIOS = ../ChibiOS-RT/
@@ -89,7 +92,9 @@ CSRC = $(PORTSRC) \
        myPWM.c \
        myADC.c \
        myUSB.c \
-       myMisc.c
+       myMisc.c \
+			 $(UNITY)/src/unity.c \
+			 $(UNITY)/extras/fixture/src/unity_fixture.c \
 
 # C++ sources that can be compiled in ARM or THUMB mode depending on the global
 # setting.
@@ -120,7 +125,9 @@ ASMSRC = $(PORTASM)
 
 INCDIR = $(PORTINC) $(KERNINC) $(TESTINC) \
          $(HALINC) $(PLATFORMINC) $(BOARDINC) \
-         $(CHIBIOS)/os/various
+         $(CHIBIOS)/os/various \
+				 $(UNITY)/src \
+				 $(UNITY)/extras/fixture/src \
 
 #
 # Project, sources and paths
@@ -168,7 +175,8 @@ CPPWARN = -Wall -Wextra
 #
 
 # List all default C defines here, like -D_DEBUG=1
-DDEFS =
+DDEFS = -DUNITY_OUTPUT_CHAR=UnityOutputCharSpy_OutputChar
+
 
 # List all default ASM defines here, like -D_DEBUG=1
 DADEFS =

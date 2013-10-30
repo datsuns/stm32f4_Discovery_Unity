@@ -64,6 +64,7 @@ static const ShellCommand commands[] = {
   {"stopContinuous", cmd_measureStop},
   {"sc", cmd_measureStop},
   {"hello", cmd_say_hello},
+  {"unity", cmd_hello_unity},
   {NULL, NULL}
 };
 
@@ -130,4 +131,14 @@ int main(void) {
     }
     chThdSleepMilliseconds(1000);
   }
+}
+
+int UnityOutputCharSpy_OutputChar(int c) {
+  if(c == '\n'){
+    chprintf(shell_cfg1.sc_channel, "\r\n");
+  }
+  else{
+    chprintf(shell_cfg1.sc_channel, "%c", c);
+  }
+  return c;
 }

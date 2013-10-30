@@ -344,6 +344,16 @@ void cmd_measureRead(BaseSequentialStream *chp, int argc, char *argv[]) {
   }
 }
 
+#include "unity.h"
+void hello_unity(void){
+  TEST_ASSERT_EQUAL(0, 0);
+}
+void cmd_hello_unity(BaseSequentialStream *chp, int argc, char *argv[]) {
+  UnityBegin();
+  RUN_TEST(hello_unity, 20);
+  UnityEnd();
+}
+
 void myADCinit(void){
   palSetGroupMode(GPIOC, PAL_PORT_BIT(1),
                   0, PAL_MODE_INPUT_ANALOG);

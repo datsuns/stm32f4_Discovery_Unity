@@ -1,0 +1,2 @@
+~/bin/sat/bin/arm-none-eabi-gdb ./build/ch.elf --command=./cmd
+
