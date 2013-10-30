@@ -11,6 +11,7 @@ void cmd_measureCont(BaseSequentialStream *chp, int argc, char *argv[]);
 void cmd_measureRead(BaseSequentialStream *chp, int argc, char *argv[]);
 void cmd_measureStop(BaseSequentialStream *chp, int argc, char *argv[]);
 void cmd_say_hello(BaseSequentialStream *chp, int argc, char *argv[]) ;
+void cmd_hello_unity(BaseSequentialStream *chp, int argc, char *argv[]);
 
 void myADCinit(void);
 
