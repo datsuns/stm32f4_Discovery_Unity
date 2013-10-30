@@ -124,6 +124,7 @@ int main(void) {
     if (!shelltp && isUsbActive())
       {
         shelltp = shellCreate(&shell_cfg1, SHELL_WA_SIZE, NORMALPRIO);
+        cmd_hello_unity(shell_cfg1.sc_channel, 0, 0);
       }
     else if (chThdTerminated(shelltp)) {
       chThdRelease(shelltp);    /* Recovers memory of the previous shell.   */
